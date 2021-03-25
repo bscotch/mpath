@@ -1,4 +1,8 @@
-# [0.9.0](https://github.com/bscotch/mpath/compare/0.8.3...0.9.0) (2021-03-25)
+## [0.9.1](https://github.com/bscotch/mpath/compare/v0.9.0...v0.9.1) (2021-03-25)
+
+
+
+# [0.9.0](https://github.com/bscotch/mpath/compare/0.8.3...v0.9.0) (2021-03-25)
 
 
 ### Bug Fixes
