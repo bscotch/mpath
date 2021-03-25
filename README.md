@@ -1,17 +1,17 @@
 # @bscotch/mpath
 
 Forked from the popular `[mpath](https://github.com/aheckmann/mpath)`
-module, rewritten in Typescript for modern Node targets only
+module, rewritten in Typescript for modern Node targets 
 (uses ECMAScript Modules).
 
 {G,S}et JavaScript object values using MongoDB-like path notation.
 
 ### Getting
 
-```js
-var mpath = require('mpath');
+```ts
+import mpath from "mpath";
 
-var obj = {
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -23,8 +23,8 @@ mpath.get('comments.1.title', obj) // 'exciting!'
 
 `mpath.get` supports array property notation as well.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -36,8 +36,8 @@ mpath.get('comments.title', obj) // ['funny', 'exciting!']
 
 Array property and indexing syntax, when used together, are very powerful.
 
-```js
-var obj = {
+```ts
+const obj = {
   array: [
       { o: { array: [{x: {b: [4,6,8]}}, { y: 10} ] }}
     , { o: { array: [{x: {b: [1,2,3]}}, { x: {z: 10 }}, { x: 'Turkey Day' }] }}
@@ -49,7 +49,7 @@ var obj = {
   ];
 }
 
-var found = mpath.get('array.o.array.x.b.1', obj);
+const found = mpath.get('array.o.array.x.b.1', obj);
 
 console.log(found); // prints..
 
@@ -68,8 +68,8 @@ console.log(found); // prints..
 
 The following rules are iteratively applied to each `segment` in the passed `path`. For example:
 
-```js
-var path = 'one.two.14'; // path
+```ts
+const path = 'one.two.14'; // path
 'one' // segment 0
 'two' // segment 1
 14    // segment 2
@@ -84,8 +84,8 @@ var path = 'one.two.14'; // path
 
 `mpath.get` also accepts an optional `map` argument which receives each individual found value. The value returned from the `map` function will be used in the original found values place.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -102,8 +102,8 @@ mpath.get('comments.title', obj, function (val) {
 
 ### Setting
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -116,8 +116,8 @@ console.log(obj.comments[1].title) // 'hilarious'
 
 `mpath.set` supports the same array property notation as `mpath.get`.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -136,8 +136,8 @@ console.log(obj); // prints..
 
 Array property and indexing syntax can be used together also when setting.
 
-```js
-var obj = {
+```ts
+const obj = {
   array: [
       { o: { array: [{x: {b: [4,6,8]}}, { y: 10} ] }}
     , { o: { array: [{x: {b: [1,2,3]}}, { x: {z: 10 }}, { x: 'Turkey Day' }] }}
@@ -186,8 +186,8 @@ console.log(require('util').inspect(obj, false, 1000)); // prints..
 
 By default, setting a property within an array to another array results in each element of the new array being set to the item in the destination array at the matching index. An example is helpful.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -206,8 +206,8 @@ console.log(obj); // prints..
 
 If we do not desire this destructuring-like assignment behavior we may instead specify the `$` operator in the path being set to force the array to be copied directly.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -224,7 +224,7 @@ console.log(obj); // prints..
   ]}
 ```
 
-####Field assignment rules
+#### Field assignment rules
 
 The rules utilized mirror those used on `mpath.get`, meaning we can take values returned from `mpath.get`, update them, and reassign them using `mpath.set`. Note that setting nested arrays of arrays can get unweildy quickly. Check out the [tests](https://github.com/aheckmann/mpath/blob/master/test/index.js) for more extreme examples.
 
@@ -232,8 +232,8 @@ The rules utilized mirror those used on `mpath.get`, meaning we can take values 
 
 `mpath.set` also accepts an optional `map` argument which receives each individual value being set. The value returned from the `map` function will be used in the original values place.
 
-```js
-var obj = {
+```ts
+const obj = {
     comments: [
       { title: 'funny' },
       { title: 'exciting!' }
@@ -256,10 +256,10 @@ console.log(obj); // prints..
 
 Sometimes you may want to enact the same functionality on custom object types that store all their real data internally, say for an ODM type object. No fear, `mpath` has you covered. Simply pass the name of the property being used to store the internal data and it will be traversed instead:
 
-```js
-var mpath = require('mpath');
+```ts
+import mpath from "mpath";
 
-var obj = {
+const obj = {
     comments: [
       { title: 'exciting!', _doc: { title: 'great!' }}
     ]
@@ -273,10 +273,8 @@ mpath.get('comments.0.title', obj)                    // 'exciting'
 
 When used with a `map`, the `map` argument comes last.
 
-```js
+```ts
 mpath.get(path, obj, '_doc', map);
 mpath.set(path, val, obj, '_doc', map);
 ```
-
-[LICENSE](https://github.com/aheckmann/mpath/blob/master/LICENSE)
 

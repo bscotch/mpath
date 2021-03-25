@@ -11,7 +11,7 @@ export type Lookup = (
   key: keyof Container,
   newValue?: any,
 ) => any;
-export type Special = string | string[] | Lookup;
+export type Special = string | Lookup;
 export type MapFunction = (value: any) => any;
 
 /**
@@ -61,11 +61,11 @@ export function get(
   if ('function' == typeof specialOrMap) {
     if (specialOrMap.length < 2) {
       map = specialOrMap as MapFunction;
-      special = undefined;
     } else {
       lookup = specialOrMap;
-      special = undefined;
     }
+  } else {
+    special = specialOrMap;
   }
 
   map = map || identity;
@@ -189,11 +189,11 @@ export function set(
   if ('function' == typeof specialOrMap) {
     if (specialOrMap.length < 2) {
       map = specialOrMap as MapFunction;
-      special = undefined;
     } else {
       lookup = specialOrMap;
-      special = undefined;
     }
+  } else {
+    special = specialOrMap;
   }
 
   map || (map = identity);
@@ -255,7 +255,7 @@ export function set(
     if (lookup) {
       obj = lookup(obj, part);
     } else {
-      var _to = special && obj[special] ? obj[special] : obj;
+      const _to = special && obj[special] ? obj[special] : obj;
       obj = _to instanceof Map ? _to.get(part) : _to[part];
     }
 
@@ -285,7 +285,9 @@ export function set(
             if (item[special as string]) {
               item = item[special as string];
             }
-            item[part] = map(val);
+            if (typeof item == 'object') {
+              item[part] = map(val);
+            }
           }
         }
       }
@@ -295,7 +297,7 @@ export function set(
       lookup(obj, part, map(val));
     } else if (obj instanceof Map) {
       obj.set(part, map(val));
-    } else {
+    } else if (typeof obj == 'object') {
       obj[part] = map(val);
     }
   }
@@ -321,7 +323,9 @@ function _setArray(
         lookup(item, part, map?.(val[j]));
       } else {
         if (item[special as string]) item = item[special as string];
-        item[part] = map?.(val[j]);
+        if (typeof item == 'object') {
+          item[part] = map?.(val[j]);
+        }
       }
     }
   }

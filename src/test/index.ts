@@ -1261,7 +1261,7 @@ describe('mpath', function () {
                   { d: 'yep', e: 35 },
                 ],
               },
-              { yep: false },
+              { yep: 0 },
             ],
             o.arr,
           );
@@ -1277,7 +1277,7 @@ describe('mpath', function () {
                   { d: 'yep', e: 35 },
                 ],
               },
-              { yep: false },
+              { yep: 0 },
             ],
             o.arr,
           );
@@ -1477,7 +1477,7 @@ describe('mpath', function () {
           (o.arr[1] as { arr: SampleArrArrComponent }).arr = [{}, {}];
           assert.deepStrictEqual(
             [{}, {}],
-            o.arr[1] as { arr: SampleArrArrComponent },
+            (o.arr[1] as { arr: SampleArrArrComponent }).arr,
           );
           o.arr.push({ arr: 'something else' });
           o.arr.push({ arr: ['something else'] });
@@ -2902,13 +2902,14 @@ describe('mpath', function () {
 
     it('unset with __proto__', function (done) {
       // Should refuse to set __proto__
-      class Clazz {
-        foobar = true;
-      }
+      function Clazz() {}
+      Clazz.prototype.foobar = true;
 
+      // @ts-expect-error
       mpath.unset('__proto__.foobar', new Clazz());
       assert.ok(Clazz.prototype.foobar);
 
+      // @ts-expect-error
       mpath.unset('constructor.prototype.foobar', new Clazz());
       assert.ok(Clazz.prototype.foobar);
 
