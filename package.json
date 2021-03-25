@@ -17,7 +17,7 @@
     "test": "npm run build && mocha -r source-map-support/register --bail ./build/test/",
     "preversion": "git checkout develop && npm test",
     "version": "npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add -A",
-    "postversion": "git push origin develop && git checkout main && git merge develop && git push origin main --follow-tags && npm publish && git checkout develop && git merge main",
+    "postversion": "git push origin develop --follow-tags && npm publish",
     "tsc-live": "npx tsc -w"
   },
   "repository": "https://github.com/bscotch/mpath",
