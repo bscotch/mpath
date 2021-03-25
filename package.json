@@ -1,144 +1,50 @@
 {
-  "name": "mpath",
+  "name": "@bscotch/mpath",
   "version": "0.8.3",
-  "description": "{G,S}et object values using MongoDB-like path notation",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "test": "mocha test/*"
-  },
+  "description": "Get/Set object values using MongoDB-like path notation",
+  "type": "module",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=14.0.0"
   },
-  "repository": "git://github.com/aheckmann/mpath.git",
+  "main": "./build/index.js",
+  "files": [
+    "build/lib/**/*",
+    "build/index.*",
+    "build/types/**/*"
+  ],
+  "scripts": {
+    "build": "rm -rf build && npx tsc",
+    "test": "npm run build && mocha -r source-map-support/register --bail ./build/test/",
+    "preversion": "git checkout develop && npm test",
+    "version": "npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add -A",
+    "postversion": "git push origin develop && git checkout main && git merge develop && git push origin main --follow-tags && npm publish && git checkout develop && git merge main",
+    "tsc-live": "npx tsc -w"
+  },
+  "repository": "https://github.com/bscotch/mpath",
+  "homepage": "https://github.com/bscotch/mpath#readme",
   "keywords": [
     "mongodb",
     "path",
     "get",
     "set"
   ],
-  "author": "Aaron Heckmann <aaron.heckmann+github@gmail.com>",
+  "author": "Adam Coster (https://bscotch.net/about)",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "5.x",
-    "benchmark": "~1.0.0",
-    "eslint": "7.16.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2015
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "rules": {
-      "comma-style": "error",
-      "indent": [
-        "error",
-        2,
-        {
-          "SwitchCase": 1,
-          "VariableDeclarator": 2
-        }
-      ],
-      "keyword-spacing": "error",
-      "no-whitespace-before-property": "error",
-      "no-buffer-constructor": "warn",
-      "no-console": "off",
-      "no-multi-spaces": "error",
-      "no-constant-condition": "off",
-      "func-call-spacing": "error",
-      "no-trailing-spaces": "error",
-      "no-undef": "error",
-      "no-unneeded-ternary": "error",
-      "no-const-assign": "error",
-      "no-useless-rename": "error",
-      "no-dupe-keys": "error",
-      "space-in-parens": [
-        "error",
-        "never"
-      ],
-      "spaced-comment": [
-        "error",
-        "always",
-        {
-          "block": {
-            "markers": [
-              "!"
-            ],
-            "balanced": true
-          }
-        }
-      ],
-      "key-spacing": [
-        "error",
-        {
-          "beforeColon": false,
-          "afterColon": true
-        }
-      ],
-      "comma-spacing": [
-        "error",
-        {
-          "before": false,
-          "after": true
-        }
-      ],
-      "array-bracket-spacing": 1,
-      "arrow-spacing": [
-        "error",
-        {
-          "before": true,
-          "after": true
-        }
-      ],
-      "object-curly-spacing": [
-        "error",
-        "always"
-      ],
-      "comma-dangle": [
-        "error",
-        "never"
-      ],
-      "no-unreachable": "error",
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "quote-props": [
-        "error",
-        "as-needed"
-      ],
-      "semi": "error",
-      "no-extra-semi": "error",
-      "semi-spacing": "error",
-      "no-spaced-func": "error",
-      "no-throw-literal": "error",
-      "space-before-blocks": "error",
-      "space-before-function-paren": [
-        "error",
-        "never"
-      ],
-      "space-infix-ops": "error",
-      "space-unary-ops": "error",
-      "no-var": "warn",
-      "prefer-const": "warn",
-      "strict": [
-        "error",
-        "global"
-      ],
-      "no-restricted-globals": [
-        "error",
-        {
-          "name": "context",
-          "message": "Don't use Mocha's global context"
-        }
-      ],
-      "no-prototype-builtins": "off"
-    }
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.31",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "chai": "^4.3.0",
+    "conventional-changelog-cli": "^2.1.1",
+    "eslint": "^7.20.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "esm": "^3.2.25",
+    "mocha": "^8.3.0",
+    "prettier": "^2.2.1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   }
 }
