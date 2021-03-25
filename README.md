@@ -1,6 +1,6 @@
 # @bscotch/mpath
 
-Forked from the popular `[mpath](https://github.com/aheckmann/mpath)`
+Forked from the popular [mpath](https://github.com/aheckmann/mpath)
 module, rewritten in Typescript for modern Node targets 
 (uses ECMAScript Modules).
 
